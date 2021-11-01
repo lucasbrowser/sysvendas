@@ -1,0 +1,12 @@
+BANCODADOS
+POSTGRES
+ENDERECO
+localhost
+PORTA
+5432
+BANCO
+sistema_vendas
+USUARIO
+postgres
+SENHA
+123456
