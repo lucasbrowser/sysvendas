@@ -9,6 +9,8 @@ package com.lucas.sysvendas.control;
 
 import com.lucas.sysvendas.model.dao.ClienteDAO;
 import com.lucas.sysvendas.model.domain.Cliente;
+import com.lucas.sysvendas.model.domain.ClienteEndereco;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,10 +19,17 @@ import java.util.List;
  */
 public class ClienteControl {
     
-    ClienteDAO clienteDAO = new ClienteDAO();
+    private ClienteDAO clienteDAO = new ClienteDAO();
+    private Cliente cliente;
+    private ClienteEndereco clienteEndereco;
+    
     
     public List<Cliente> listarTodos() throws Exception {
         return clienteDAO.listarTodos();
+    }
+    
+    public List<ClienteEndereco> recuperarEndereco(Cliente cliente) throws Exception {
+        return clienteDAO.recuperarEndereco(cliente);
     }
     
     public void inserirCliente(Cliente cliente) throws Exception {
@@ -33,5 +42,37 @@ public class ClienteControl {
     
     public void excluirCliente(Cliente cliente) throws Exception {
         clienteDAO.excluir(cliente);
+    }
+    
+    public Cliente novoCliente() {
+        
+        cliente = new Cliente();
+        cliente.setCodigo(0l);
+        cliente.setNomeFantasia("");
+        cliente.setRazaoSocial("");
+        cliente.setDataCadastro(new Date());
+        cliente.setTipoPessoa("");
+        cliente.setCpfCnpj("");
+        cliente.setDocumento("");
+        cliente.setTelefone("");
+        cliente.setCelular("");
+        cliente.setEmail("");
+        
+        return cliente;
+    }
+    
+    public ClienteEndereco novoClienteEndereco() {
+        
+        clienteEndereco = new ClienteEndereco();
+        clienteEndereco.setCodigo(0l);
+        clienteEndereco.setEndereco("");
+        clienteEndereco.setNumero("");
+        clienteEndereco.setBairro("");
+        clienteEndereco.setComplemento("");
+        clienteEndereco.setCidade("");
+        clienteEndereco.setEstado("");
+        clienteEndereco.setCep("");
+        
+        return clienteEndereco; 
     }
 }

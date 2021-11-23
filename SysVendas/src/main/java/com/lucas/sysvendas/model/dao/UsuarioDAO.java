@@ -23,7 +23,7 @@ public class UsuarioDAO extends ConexaoPostgres{
         List<Usuario> lUsuario = new LinkedList<>();
         try {
             this.conectar();
-            String sql = "SELECT * FROM USUARIO ORDER BY CODIGO";
+            String sql = "SELECT * FROM USUARIOS ORDER BY CODIGO";
             PreparedStatement ps = this.getCon().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -49,7 +49,7 @@ public class UsuarioDAO extends ConexaoPostgres{
         Usuario usuario = new Usuario();
         try {
             this.conectar();
-            String sql = "SELECT * FROM USUARIO WHERE LOGIN=? AND SENHA=?";
+            String sql = "SELECT * FROM USUARIOS WHERE LOGIN=? AND SENHA=?";
             PreparedStatement ps = this.getCon().prepareStatement(sql);
             ps.setString(1, login);
             ps.setString(2, senha);
@@ -75,7 +75,7 @@ public class UsuarioDAO extends ConexaoPostgres{
     public void inserir(Usuario usuario) throws Exception {
         try {
             this.conectar();
-            this.insertSQL("INSERT INTO USUARIO (NOME, CARGO, PERFIL, LOGIN, SENHA) "
+            this.insertSQL("INSERT INTO USUARIOS (NOME, CARGO, PERFIL, LOGIN, SENHA) "
                     + "VALUES ("
                     + "'" + usuario.getNome() + "',"
                     + "'" + usuario.getCargo() + "',"
@@ -95,7 +95,7 @@ public class UsuarioDAO extends ConexaoPostgres{
         try {
             this.conectar();
             this.executarUpdateDeleteSQL(
-                "UPDATE USUARIO SET "
+                "UPDATE USUARIOS SET "
                     + "NOME = '" + usuario.getNome() + "',"
                     + "CARGO = '" + usuario.getCargo() + "',"
                     + "PERFIL = '" + usuario.getPerfil() + "',"
@@ -116,7 +116,7 @@ public class UsuarioDAO extends ConexaoPostgres{
         try {
             this.conectar();
             this.executarUpdateDeleteSQL(
-                "DELETE FROM USUARIO "
+                "DELETE FROM USUARIOS "
                 + " WHERE "
                     + "CODIGO = '" + usuario.getCodigo() + "'"
                 + ";"

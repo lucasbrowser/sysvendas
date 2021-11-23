@@ -36,7 +36,7 @@ public class ClienteDAO extends ConexaoPostgres {
                     + "TELEFONE, "
                     + "CELULAR, "
                     + "EMAIL) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             PreparedStatement ps = this.getCon().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, cliente.getNomeFantasia());
@@ -116,7 +116,7 @@ public class ClienteDAO extends ConexaoPostgres {
             
             for (ClienteEndereco endereco : cliente.getEndereco()) {
                 
-                sql = "UPDATE CLIENTES_ENDERECOS SET"
+                sql = "UPDATE CLIENTES_ENDERECOS SET "
                         + "CLIENTE = ?, "
                         + "ENDERECO = ?, "
                         + "NUMERO = ?, "
@@ -216,6 +216,35 @@ public class ClienteDAO extends ConexaoPostgres {
             this.fecharConexao();
         }
         return cliente;
+    }
+    
+    public List<ClienteEndereco> recuperarEndereco(Cliente cliente) throws Exception {
+        List<ClienteEndereco> lEndereco = new LinkedList<>();
+        try{
+            this.conectar();
+            String sql = "SELECT * FROM CLIENTES_ENDERECOS WHERE CLIENTE = ?";
+            PreparedStatement ps = this.getCon().prepareStatement(sql);
+            ps.setLong(1, cliente.getCodigo());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                ClienteEndereco endereco = new ClienteEndereco();
+                endereco.setCodigo(rs.getLong("CODIGO"));
+                endereco.setCliente(cliente);
+                endereco.setEndereco(rs.getString("ENDERECO"));
+                endereco.setNumero(rs.getString("NUMERO"));
+                endereco.setBairro(rs.getString("BAIRRO"));
+                endereco.setComplemento(rs.getString("COMPLEMENTO"));
+                endereco.setCidade(rs.getString("CIDADE"));
+                endereco.setEstado(rs.getString("ESTADO"));
+                endereco.setCep(rs.getString("CEP"));
+                lEndereco.add(endereco);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            this.fecharConexao();
+        }
+        return lEndereco;
     }
     
 }
