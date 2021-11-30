@@ -3,6 +3,9 @@ package com.lucas.sysvendas.view;
 
 import com.lucas.sysvendas.model.domain.Usuario;
 import com.lucas.sysvendas.view.cadastro.TelaCliente;
+import com.lucas.sysvendas.view.cadastro.TelaCompra;
+import com.lucas.sysvendas.view.cadastro.TelaFornecedor;
+import com.lucas.sysvendas.view.cadastro.TelaProduto;
 import com.lucas.sysvendas.view.cadastro.TelaUsuario;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -46,6 +49,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         miCliente = new javax.swing.JMenuItem();
         miFornecedor = new javax.swing.JMenuItem();
         miUsuario = new javax.swing.JMenuItem();
+        miProduto = new javax.swing.JMenuItem();
+        mMovimento = new javax.swing.JMenu();
+        miCompras = new javax.swing.JMenuItem();
         mFerramentas = new javax.swing.JMenu();
         miCalculadora = new javax.swing.JMenuItem();
         mSistema = new javax.swing.JMenu();
@@ -144,6 +150,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         miFornecedor.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         miFornecedor.setText("Fornecedor");
+        miFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miFornecedorActionPerformed(evt);
+            }
+        });
         mCadastro.add(miFornecedor);
 
         miUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
@@ -155,7 +166,27 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         mCadastro.add(miUsuario);
 
+        miProduto.setText("Produto");
+        miProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miProdutoActionPerformed(evt);
+            }
+        });
+        mCadastro.add(miProduto);
+
         menuBar.add(mCadastro);
+
+        mMovimento.setText("Movimento");
+
+        miCompras.setText("Compras");
+        miCompras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miComprasActionPerformed(evt);
+            }
+        });
+        mMovimento.add(miCompras);
+
+        menuBar.add(mMovimento);
 
         mFerramentas.setText("Ferramentas");
 
@@ -203,6 +234,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
         c.setVisible(true);
     }//GEN-LAST:event_miUsuarioActionPerformed
 
+    private void miFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miFornecedorActionPerformed
+        TelaFornecedor c = new TelaFornecedor();
+        desktopPane.add(c);
+        c.setVisible(true);
+    }//GEN-LAST:event_miFornecedorActionPerformed
+
+    private void miComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miComprasActionPerformed
+        TelaCompra c = new TelaCompra();
+        desktopPane.add(c);
+        c.setVisible(true);
+    }//GEN-LAST:event_miComprasActionPerformed
+
+    private void miProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miProdutoActionPerformed
+        TelaProduto c = new TelaProduto();
+        desktopPane.add(c);
+        c.setVisible(true);
+    }//GEN-LAST:event_miProdutoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClientes;
     private javax.swing.JButton btSair;
@@ -213,11 +262,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel lblUsuarioTitle;
     private javax.swing.JMenu mCadastro;
     private javax.swing.JMenu mFerramentas;
+    private javax.swing.JMenu mMovimento;
     private javax.swing.JMenu mSistema;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem miCalculadora;
     private javax.swing.JMenuItem miCliente;
+    private javax.swing.JMenuItem miCompras;
     private javax.swing.JMenuItem miFornecedor;
+    private javax.swing.JMenuItem miProduto;
     private javax.swing.JMenuItem miSair;
     private javax.swing.JMenuItem miUsuario;
     private javax.swing.JPanel pStatusBar;

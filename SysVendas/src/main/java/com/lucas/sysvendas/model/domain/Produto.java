@@ -5,6 +5,7 @@
  */
 package com.lucas.sysvendas.model.domain;
 
+import com.lucas.sysvendas.formatter.DoubleFormatoMoeda;
 import com.towel.el.annotation.Resolvable;
 
 /**
@@ -19,10 +20,10 @@ public class Produto {
     @Resolvable(colName = "Descrição")
     private String descricao;
     
-    @Resolvable(colName = "Preço Compra")
+    @Resolvable(colName = "Preço Compra", formatter = DoubleFormatoMoeda.class)
     private Double precoCompra;
     
-    @Resolvable(colName = "Preço Venda")
+    @Resolvable(colName = "Preço Venda", formatter = DoubleFormatoMoeda.class)
     private Double precoVenda;
     
     @Resolvable(colName = "Qtd. Estoque")
@@ -67,6 +68,12 @@ public class Produto {
     public void setQuantidadeEstoque(Long quantidadeEstoque) {
         this.quantidadeEstoque = quantidadeEstoque;
     }
+
+    @Override
+    public String toString() {
+        return getDescricao();
+    }
+    
     
     
     

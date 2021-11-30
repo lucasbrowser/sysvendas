@@ -129,7 +129,7 @@
           <Font name="Trebuchet MS" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="TESTE EMPRESA"/>
+        <Property name="text" type="java.lang.String" value="SYS VENDAS"/>
       </Properties>
     </Component>
   </SubComponents>

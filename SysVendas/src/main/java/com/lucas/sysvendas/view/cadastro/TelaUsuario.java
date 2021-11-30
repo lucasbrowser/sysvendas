@@ -344,6 +344,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     private void limpaFormulario() {
         usuario = null;
         txtNome.setText("");
+        txtCargo.setText("");
         txtLogin.setText("");
         pfSenha.setText("");
         cbPerfil.setSelectedItem(null);
