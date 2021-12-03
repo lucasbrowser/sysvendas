@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lucas.sysvendas.view.cadastro;
+package com.lucas.sysvendas.view.venda;
 
-import com.lucas.sysvendas.control.CompraControl;
-import com.lucas.sysvendas.model.domain.Compra;
-import com.lucas.sysvendas.model.domain.CompraItem;
-import com.lucas.sysvendas.model.domain.Fornecedor;
+import com.lucas.sysvendas.control.VendaControl;
+import com.lucas.sysvendas.model.domain.Cliente;
+import com.lucas.sysvendas.model.domain.Venda;
+import com.lucas.sysvendas.model.domain.VendaItem;
 import com.lucas.sysvendas.model.domain.Produto;
 import com.lucas.sysvendas.model.enums.SituacaoEnum;
-import com.lucas.sysvendas.view.consultas.TelaBuscaFornecedor;
+import com.lucas.sysvendas.view.consultas.TelaBuscaCliente;
 import com.lucas.sysvendas.view.consultas.TelaBuscaProduto;
 import com.towel.swing.table.ObjectTableModel;
 import java.awt.event.KeyEvent;
@@ -22,22 +22,22 @@ import javax.swing.JOptionPane;
  *
  * @author lucas
  */
-public class TelaCompra extends javax.swing.JInternalFrame {
+public class TelaVenda extends javax.swing.JInternalFrame {
     
-    private final ObjectTableModel<Compra> otmCompra = new ObjectTableModel<>(Compra.class, "fornecedor,dataCompra,valorTotal,situacao");
-    private final ObjectTableModel<CompraItem> otmCompraItem = new ObjectTableModel<>(CompraItem.class, "produto,quantidade,valorUnitario");
+    private final ObjectTableModel<Venda> otmVenda = new ObjectTableModel<>(Venda.class, "cliente,dataVenda,valorTotal,situacao");
+    private final ObjectTableModel<VendaItem> otmVendaItem = new ObjectTableModel<>(VendaItem.class, "produto,quantidade,valorUnitario");
     
-    private final CompraControl compraControl = new CompraControl();
+    private final VendaControl vendaControl = new VendaControl();
     
-    private Compra compra;
-    private CompraItem compraItem;
+    private Venda venda;
+    private VendaItem vendaItem;
     
     private String statusBotoes;
 
     /**
      * Creates new form TelaFuncionario
      */
-    public TelaCompra() {
+    public TelaVenda() {
         
         initComponents();
         
@@ -47,19 +47,20 @@ public class TelaCompra extends javax.swing.JInternalFrame {
         
     }
     
-    public void setFornecedor(Fornecedor fornecedor) {
-        ftfFornecedor.setValue(fornecedor);
+    public void setCliente(Cliente cliente) {
+        ftfCliente.setValue(cliente);
     }
     
     public void setProduto(Produto produto) {
         ftfProduto.setValue(produto);
+        ftfValorUnitario.setValue(produto.getPrecoVenda());
     }
     
     
     private void carregarGrade() {
         
         try {      
-            otmCompra.setData(compraControl.listarTodos());
+            otmVenda.setData(vendaControl.listarTodos());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -83,24 +84,24 @@ public class TelaCompra extends javax.swing.JInternalFrame {
         bFinalizar = new javax.swing.JButton();
         bCancelar = new javax.swing.JButton();
         bRemover = new javax.swing.JButton();
-        tpConteudoCompra = new javax.swing.JTabbedPane();
-        paDadosCompra = new javax.swing.JPanel();
-        lblFornecedor = new javax.swing.JLabel();
+        tpConteudoVenda = new javax.swing.JTabbedPane();
+        paDadosVenda = new javax.swing.JPanel();
+        lblCliente = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tpCompra = new javax.swing.JTable();
-        ftfFornecedor = new javax.swing.JFormattedTextField();
-        bBuscarFornecedor = new javax.swing.JButton();
-        lblDataCompra = new javax.swing.JLabel();
-        ftfDataCompra = new javax.swing.JFormattedTextField();
+        tpVenda = new javax.swing.JTable();
+        ftfCliente = new javax.swing.JFormattedTextField();
+        bBuscarCliente = new javax.swing.JButton();
+        lblDataVenda = new javax.swing.JLabel();
+        ftfDataVenda = new javax.swing.JFormattedTextField();
         lblValorTotal = new javax.swing.JLabel();
         ftfValorTotal = new javax.swing.JFormattedTextField();
-        paItensCompra = new javax.swing.JPanel();
+        paItensVenda = new javax.swing.JPanel();
         lblProduto = new javax.swing.JLabel();
         bAdicionarItem = new javax.swing.JButton();
         bRemoverItem = new javax.swing.JButton();
         ftfProduto = new javax.swing.JFormattedTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tpCompraItem = new javax.swing.JTable();
+        tpVendaItem = new javax.swing.JTable();
         bBuscarProduto = new javax.swing.JButton();
         lblQuantidade = new javax.swing.JLabel();
         spQuantidade = new javax.swing.JSpinner();
@@ -113,7 +114,7 @@ public class TelaCompra extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setResizable(true);
-        setTitle("Lançamento de Compra");
+        setTitle("Lançamento de Venda");
 
         bNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/novo.png"))); // NOI18N
         bNovo.setMnemonic(KeyEvent.VK_N);
@@ -194,69 +195,69 @@ public class TelaCompra extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        lblFornecedor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblFornecedor.setText("Fornecedor:");
+        lblCliente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblCliente.setText("Cliente:");
 
-        tpCompra.setModel(otmCompra);
-        tpCompra.addMouseListener(new java.awt.event.MouseAdapter() {
+        tpVenda.setModel(otmVenda);
+        tpVenda.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tpCompraMouseClicked(evt);
+                tpVendaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tpCompra);
+        jScrollPane1.setViewportView(tpVenda);
 
-        bBuscarFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/buscar.png"))); // NOI18N
-        bBuscarFornecedor.addActionListener(new java.awt.event.ActionListener() {
+        bBuscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/buscar.png"))); // NOI18N
+        bBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bBuscarFornecedorActionPerformed(evt);
+                bBuscarClienteActionPerformed(evt);
             }
         });
 
-        lblDataCompra.setText("Data da Compra:");
+        lblDataVenda.setText("Data da Venda:");
 
-        ftfDataCompra.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        ftfDataVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
         lblValorTotal.setText("Valor Total:");
 
         ftfValorTotal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
 
-        javax.swing.GroupLayout paDadosCompraLayout = new javax.swing.GroupLayout(paDadosCompra);
-        paDadosCompra.setLayout(paDadosCompraLayout);
-        paDadosCompraLayout.setHorizontalGroup(
-            paDadosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout paDadosVendaLayout = new javax.swing.GroupLayout(paDadosVenda);
+        paDadosVenda.setLayout(paDadosVendaLayout);
+        paDadosVendaLayout.setHorizontalGroup(
+            paDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
-            .addGroup(paDadosCompraLayout.createSequentialGroup()
+            .addGroup(paDadosVendaLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(paDadosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(paDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblValorTotal)
-                    .addComponent(lblDataCompra)
-                    .addComponent(lblFornecedor))
+                    .addComponent(lblDataVenda)
+                    .addComponent(lblCliente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(paDadosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(paDadosCompraLayout.createSequentialGroup()
-                        .addComponent(ftfFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(paDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paDadosVendaLayout.createSequentialGroup()
+                        .addComponent(ftfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bBuscarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(paDadosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(bBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(ftfValorTotal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                        .addComponent(ftfDataCompra, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addComponent(ftfDataVenda, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        paDadosCompraLayout.setVerticalGroup(
-            paDadosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(paDadosCompraLayout.createSequentialGroup()
+        paDadosVendaLayout.setVerticalGroup(
+            paDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paDadosVendaLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addGroup(paDadosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bBuscarFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(paDadosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblFornecedor)
-                        .addComponent(ftfFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(paDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(paDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblCliente)
+                        .addComponent(ftfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(paDadosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDataCompra)
-                    .addComponent(ftfDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(paDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDataVenda)
+                    .addComponent(ftfDataVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(paDadosCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(paDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblValorTotal)
                     .addComponent(ftfValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(74, 74, 74)
@@ -264,7 +265,7 @@ public class TelaCompra extends javax.swing.JInternalFrame {
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        tpConteudoCompra.addTab("Dados da Compra", paDadosCompra);
+        tpConteudoVenda.addTab("Dados da Venda", paDadosVenda);
 
         lblProduto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblProduto.setText("Produto:");
@@ -283,8 +284,8 @@ public class TelaCompra extends javax.swing.JInternalFrame {
             }
         });
 
-        tpCompraItem.setModel(otmCompraItem);
-        jScrollPane2.setViewportView(tpCompraItem);
+        tpVendaItem.setModel(otmVendaItem);
+        jScrollPane2.setViewportView(tpVendaItem);
 
         bBuscarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/buscar.png"))); // NOI18N
         bBuscarProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -299,55 +300,55 @@ public class TelaCompra extends javax.swing.JInternalFrame {
 
         ftfValorUnitario.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
 
-        javax.swing.GroupLayout paItensCompraLayout = new javax.swing.GroupLayout(paItensCompra);
-        paItensCompra.setLayout(paItensCompraLayout);
-        paItensCompraLayout.setHorizontalGroup(
-            paItensCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(paItensCompraLayout.createSequentialGroup()
+        javax.swing.GroupLayout paItensVendaLayout = new javax.swing.GroupLayout(paItensVenda);
+        paItensVenda.setLayout(paItensVendaLayout);
+        paItensVendaLayout.setHorizontalGroup(
+            paItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paItensVendaLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(paItensCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(paItensCompraLayout.createSequentialGroup()
+                .addGroup(paItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(paItensVendaLayout.createSequentialGroup()
                         .addComponent(bAdicionarItem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bRemoverItem, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(paItensCompraLayout.createSequentialGroup()
-                        .addGroup(paItensCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(paItensVendaLayout.createSequentialGroup()
+                        .addGroup(paItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblValorUnitario)
                             .addComponent(lblQuantidade)
                             .addComponent(lblProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(paItensCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(paItensCompraLayout.createSequentialGroup()
+                        .addGroup(paItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(paItensVendaLayout.createSequentialGroup()
                                 .addComponent(ftfProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bBuscarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(spQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ftfValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(paItensCompraLayout.createSequentialGroup()
+            .addGroup(paItensVendaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        paItensCompraLayout.setVerticalGroup(
-            paItensCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(paItensCompraLayout.createSequentialGroup()
+        paItensVendaLayout.setVerticalGroup(
+            paItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paItensVendaLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(paItensCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(paItensCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(paItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblProduto)
                         .addComponent(ftfProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(bBuscarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(paItensCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(paItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblQuantidade)
                     .addComponent(spQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(paItensCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(paItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblValorUnitario)
                     .addComponent(ftfValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(paItensCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(paItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(bRemoverItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bAdicionarItem))
                 .addGap(27, 27, 27)
@@ -355,7 +356,7 @@ public class TelaCompra extends javax.swing.JInternalFrame {
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
-        tpConteudoCompra.addTab("Itens da Compra", paItensCompra);
+        tpConteudoVenda.addTab("Itens da Venda", paItensVenda);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -365,7 +366,7 @@ public class TelaCompra extends javax.swing.JInternalFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(tpConteudoCompra)
+                    .addComponent(tpConteudoVenda)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
@@ -376,7 +377,7 @@ public class TelaCompra extends javax.swing.JInternalFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(63, 63, 63)
-                    .addComponent(tpConteudoCompra)
+                    .addComponent(tpConteudoVenda)
                     .addContainerGap()))
         );
 
@@ -384,7 +385,7 @@ public class TelaCompra extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNovoActionPerformed
-        compra = compraControl.novaCompra();
+        venda = vendaControl.novaVenda();
         habilitarFormulario(true);
         bFinalizar.setEnabled(false);
     }//GEN-LAST:event_bNovoActionPerformed
@@ -392,46 +393,46 @@ public class TelaCompra extends javax.swing.JInternalFrame {
     private void bCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelarActionPerformed
         habilitarFormulario(false);
         
-        otmCompraItem.clear();
+        otmVendaItem.clear();
     }//GEN-LAST:event_bCancelarActionPerformed
 
-    private void tpCompraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tpCompraMouseClicked
+    private void tpVendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tpVendaMouseClicked
         if (evt.getClickCount() >= 2) {
-            compra = otmCompra.getValue(tpCompra.getSelectedRow());
+            venda = otmVenda.getValue(tpVenda.getSelectedRow());
             
-            if (compra.getSituacao() == SituacaoEnum.FINALIZADA) {
-                JOptionPane.showMessageDialog(this, "Compra finalizada não pode ser alterada.", "Alerta", JOptionPane.WARNING_MESSAGE);
+            if (venda.getSituacao() == SituacaoEnum.FINALIZADA) {
+                JOptionPane.showMessageDialog(this, "Venda finalizada não pode ser alterada.", "Alerta", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            if (compra.getSituacao() == SituacaoEnum.CANCELADA) {
-                JOptionPane.showMessageDialog(this, "Compra cancelada não pode ser alterada.", "Alerta", JOptionPane.WARNING_MESSAGE);
+            if (venda.getSituacao() == SituacaoEnum.CANCELADA) {
+                JOptionPane.showMessageDialog(this, "Venda cancelada não pode ser alterada.", "Alerta", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            ftfFornecedor.setValue(compra.getFornecedor());
-            ftfDataCompra.setValue(compra.getDataCompra());
-            ftfValorTotal.setValue(compra.getValorTotal());
+            ftfCliente.setValue(venda.getCliente());
+            ftfDataVenda.setValue(venda.getDataVenda());
+            ftfValorTotal.setValue(venda.getValorTotal());
             
-            otmCompraItem.setData(compra.getItens());
+            otmVendaItem.setData(venda.getItens());
 
             habilitarFormulario(true);
 
         }
-    }//GEN-LAST:event_tpCompraMouseClicked
+    }//GEN-LAST:event_tpVendaMouseClicked
 
     private void bSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSalvarActionPerformed
         if (validarFormulario()) {
             
-            salvarCompra(false);
+            salvarVenda(false);
             
-            otmCompraItem.clear();
+            otmVendaItem.clear();
         }
     }//GEN-LAST:event_bSalvarActionPerformed
 
     private void bFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bFinalizarActionPerformed
-        int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente finalizar a compra?");
+        int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente finalizar a venda?");
         if (opcao == 0) {
-            salvarCompra(true);
+            salvarVenda(true);
         }
     }//GEN-LAST:event_bFinalizarActionPerformed
 
@@ -439,11 +440,11 @@ public class TelaCompra extends javax.swing.JInternalFrame {
         
         if (validarFormularioItens()) {
             
-            setarCompraItens();
+            setarVendaItens();
 
-            otmCompraItem.setData(compra.getItens());
+            otmVendaItem.setData(venda.getItens());
             
-            Double valorTotal = compra.getItens().stream().mapToDouble(v -> v.getValorUnitario() * v.getQuantidade()).sum();
+            Double valorTotal = venda.getItens().stream().mapToDouble(v -> v.getValorUnitario() * v.getQuantidade()).sum();
 
             ftfValorTotal.setValue(valorTotal);
 
@@ -455,14 +456,14 @@ public class TelaCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_bAdicionarItemActionPerformed
 
     private void bRemoverItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRemoverItemActionPerformed
-        if (tpCompraItem.getSelectedRowCount() > 0) {
+        if (tpVendaItem.getSelectedRowCount() > 0) {
             
-            int linhaSelecionada = tpCompraItem.getSelectedRow();
-            CompraItem itemRemover = otmCompraItem.getValue(linhaSelecionada);
+            int linhaSelecionada = tpVendaItem.getSelectedRow();
+            VendaItem itemRemover = otmVendaItem.getValue(linhaSelecionada);
 
-            if (JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o item " + itemRemover + "?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
-                compra.getItens().remove(itemRemover);
-                otmCompraItem.setData(compra.getItens());
+            if (JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o item da venda " + itemRemover + "?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+                venda.getItens().remove(itemRemover);
+                otmVendaItem.setData(venda.getItens());
             }
         } else {
             JOptionPane.showMessageDialog(this, "Selecione uma linha para remover.", "Alerta", JOptionPane.WARNING_MESSAGE);
@@ -473,10 +474,10 @@ public class TelaCompra extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bRemoverActionPerformed
 
-    private void bBuscarFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBuscarFornecedorActionPerformed
-        TelaBuscaFornecedor buscaFornecedor = new TelaBuscaFornecedor(this);
-        buscaFornecedor.setVisible(true);
-    }//GEN-LAST:event_bBuscarFornecedorActionPerformed
+    private void bBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBuscarClienteActionPerformed
+        TelaBuscaCliente buscaCliente = new TelaBuscaCliente(this);
+        buscaCliente.setVisible(true);
+    }//GEN-LAST:event_bBuscarClienteActionPerformed
 
     private void bBuscarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBuscarProdutoActionPerformed
         TelaBuscaProduto buscaProduto = new TelaBuscaProduto(this);
@@ -486,7 +487,7 @@ public class TelaCompra extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAdicionarItem;
-    private javax.swing.JButton bBuscarFornecedor;
+    private javax.swing.JButton bBuscarCliente;
     private javax.swing.JButton bBuscarProduto;
     private javax.swing.JButton bCancelar;
     private javax.swing.JButton bFinalizar;
@@ -495,8 +496,8 @@ public class TelaCompra extends javax.swing.JInternalFrame {
     private javax.swing.JButton bRemoverItem;
     private javax.swing.JButton bSalvar;
     private javax.swing.ButtonGroup bgClienteTipo;
-    private javax.swing.JFormattedTextField ftfDataCompra;
-    private javax.swing.JFormattedTextField ftfFornecedor;
+    private javax.swing.JFormattedTextField ftfCliente;
+    private javax.swing.JFormattedTextField ftfDataVenda;
     private javax.swing.JFormattedTextField ftfProduto;
     private javax.swing.JFormattedTextField ftfValorTotal;
     private javax.swing.JFormattedTextField ftfValorUnitario;
@@ -504,19 +505,19 @@ public class TelaCompra extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblDataCompra;
-    private javax.swing.JLabel lblFornecedor;
+    private javax.swing.JLabel lblCliente;
+    private javax.swing.JLabel lblDataVenda;
     private javax.swing.JLabel lblProduto;
     private javax.swing.JLabel lblQuantidade;
     private javax.swing.JLabel lblValorTotal;
     private javax.swing.JLabel lblValorUnitario;
     private javax.swing.JPanel pBarraFerramentas;
-    private javax.swing.JPanel paDadosCompra;
-    private javax.swing.JPanel paItensCompra;
+    private javax.swing.JPanel paDadosVenda;
+    private javax.swing.JPanel paItensVenda;
     private javax.swing.JSpinner spQuantidade;
-    private javax.swing.JTable tpCompra;
-    private javax.swing.JTable tpCompraItem;
-    private javax.swing.JTabbedPane tpConteudoCompra;
+    private javax.swing.JTabbedPane tpConteudoVenda;
+    private javax.swing.JTable tpVenda;
+    private javax.swing.JTable tpVendaItem;
     // End of variables declaration//GEN-END:variables
 
 private void habilitarFormulario(boolean b) {
@@ -526,9 +527,9 @@ private void habilitarFormulario(boolean b) {
         bFinalizar.setEnabled(b);
         bRemover.setEnabled(b);
         bCancelar.setEnabled(b);
-        ftfFornecedor.setEnabled(b);
-        bBuscarFornecedor.setEnabled(b);
-        ftfDataCompra.setEnabled(b);
+        ftfCliente.setEnabled(b);
+        bBuscarCliente.setEnabled(b);
+        ftfDataVenda.setEnabled(b);
         ftfValorTotal.setEnabled(b);
         ftfProduto.setEnabled(b);
         bBuscarProduto.setEnabled(b);
@@ -536,7 +537,7 @@ private void habilitarFormulario(boolean b) {
         ftfValorUnitario.setEnabled(b);
         bAdicionarItem.setEnabled(b);
         bRemoverItem.setEnabled(b);
-        tpCompra.setEnabled(!b);
+        tpVenda.setEnabled(!b);
         
         if (!b) {
             limpaFormulario();
@@ -544,41 +545,41 @@ private void habilitarFormulario(boolean b) {
 
     }
     
-    private void setarCompraItens() {
+    private void setarVendaItens() {
         
-        CompraItem compraItem = new CompraItem();
-        compraItem.setProduto((Produto) ftfProduto.getValue());
-        compraItem.setCompra(compra);
-        compraItem.setQuantidade(Long.parseLong(String.valueOf(spQuantidade.getValue())));
-        compraItem.setValorUnitario(Double.parseDouble(String.valueOf(ftfValorUnitario.getValue())));
+        VendaItem vendaItem = new VendaItem();
+        vendaItem.setProduto((Produto) ftfProduto.getValue());
+        vendaItem.setVenda(venda);
+        vendaItem.setQuantidade(Long.parseLong(String.valueOf(spQuantidade.getValue())));
+        vendaItem.setValorUnitario(Double.parseDouble(String.valueOf(ftfValorUnitario.getValue())));
 
-        compra.getItens().add(compraItem);
+        venda.getItens().add(vendaItem);
     } 
     
-    private void salvarCompra(boolean finalizar) {
+    private void salvarVenda(boolean finalizar) {
         
         if (validarFormulario()) {
-            compra.setFornecedor((Fornecedor) ftfFornecedor.getValue());
-            compra.setDataCompra((Date) ftfDataCompra.getValue());
-            compra.setValorTotal((Double) ftfValorTotal.getValue());
+            venda.setCliente((Cliente) ftfCliente.getValue());
+            venda.setDataVenda((Date) ftfDataVenda.getValue());
+            venda.setValorTotal((Double) ftfValorTotal.getValue());
             if (finalizar) {
-                compra.setSituacao(SituacaoEnum.FINALIZADA);
+                venda.setSituacao(SituacaoEnum.FINALIZADA);
             } else {
-                compra.setSituacao(SituacaoEnum.ABERTA);
+                venda.setSituacao(SituacaoEnum.ABERTA);
             }
 
-            if (compra.getCodigo() == 0) {
+            if (venda.getCodigo() == 0) {
                 try {
-                    compraControl.inserirCompra(compra);
+                    vendaControl.inserirVenda(venda);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Erro ao inserir a compra.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Erro ao inserir a venda.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } else {
                 try {
-                    compraControl.alterarCompra(compra);
+                    vendaControl.alterarVenda(venda);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Erro ao alterar a compra.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Erro ao alterar a venda.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
@@ -589,14 +590,14 @@ private void habilitarFormulario(boolean b) {
     }
     
     private boolean validarFormulario() {
-        if (ftfFornecedor.getValue() == null) {
+        if (ftfCliente.getValue() == null) {
             JOptionPane.showMessageDialog(this, "Fornecedor inválido.", "Alerta", JOptionPane.WARNING_MESSAGE);
-            ftfFornecedor.requestFocus();
+            ftfCliente.requestFocus();
             return false;
         }
-        if (compra.getItens().size() == 0) {
+        if (venda.getItens().size() == 0) {
             JOptionPane.showMessageDialog(this, "Quantidade de itens inválida.", "Alerta", JOptionPane.WARNING_MESSAGE);
-            tpConteudoCompra.setSelectedIndex(1);
+            tpConteudoVenda.setSelectedIndex(1);
             return false;
         }
         return true;
@@ -612,14 +613,14 @@ private void habilitarFormulario(boolean b) {
     }
     
     private void limpaFormulario() {
-        compra = null;
-        ftfFornecedor.setValue(null);
-        ftfDataCompra.setValue(new Date());
+        venda = null;
+        ftfCliente.setValue(null);
+        ftfDataVenda.setValue(new Date());
         ftfValorTotal.setValue(new Double(0));
         ftfProduto.setValue(null);
         spQuantidade.setValue(1);
         ftfValorUnitario.setValue(new Double(0));
-        tpCompraItem.setModel(otmCompraItem);
+        tpVendaItem.setModel(otmVendaItem);
         limpaFormularioItens();
     }
     

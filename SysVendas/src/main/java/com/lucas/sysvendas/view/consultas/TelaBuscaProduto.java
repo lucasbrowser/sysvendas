@@ -5,11 +5,10 @@
  */
 package com.lucas.sysvendas.view.consultas;
 
-import com.lucas.sysvendas.control.FornecedorControl;
 import com.lucas.sysvendas.control.ProdutoControl;
-import com.lucas.sysvendas.model.domain.Fornecedor;
 import com.lucas.sysvendas.model.domain.Produto;
 import com.lucas.sysvendas.view.cadastro.TelaCompra;
+import com.lucas.sysvendas.view.venda.TelaVenda;
 import com.towel.swing.table.ObjectTableModel;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -58,7 +57,7 @@ public class TelaBuscaProduto extends javax.swing.JDialog {
     private void initComponents() {
 
         pFiltro = new javax.swing.JPanel();
-        lblFiltroDepartamento = new javax.swing.JLabel();
+        lblFiltroProduto = new javax.swing.JLabel();
         txtFiltroProduto = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tpFiltroProduto = new javax.swing.JTable();
@@ -67,7 +66,7 @@ public class TelaBuscaProduto extends javax.swing.JDialog {
         setTitle("Buscar Departamento");
         setModal(true);
 
-        lblFiltroDepartamento.setText("Filtro:");
+        lblFiltroProduto.setText("Filtro:");
 
         txtFiltroProduto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -81,7 +80,7 @@ public class TelaBuscaProduto extends javax.swing.JDialog {
             pFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pFiltroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblFiltroDepartamento)
+                .addComponent(lblFiltroProduto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtFiltroProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(28, Short.MAX_VALUE))
@@ -91,7 +90,7 @@ public class TelaBuscaProduto extends javax.swing.JDialog {
             .addGroup(pFiltroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFiltroDepartamento)
+                    .addComponent(lblFiltroProduto)
                     .addComponent(txtFiltroProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
@@ -143,6 +142,10 @@ public class TelaBuscaProduto extends javax.swing.JDialog {
 
             if (parent instanceof TelaCompra) {
                 TelaCompra tc = (TelaCompra) parent;
+                tc.setProduto(produto);
+                dispose();
+            } else if (parent instanceof TelaVenda) {
+                TelaVenda tc = (TelaVenda) parent;
                 tc.setProduto(produto);
                 dispose();
             } else {
@@ -199,7 +202,7 @@ public class TelaBuscaProduto extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblFiltroDepartamento;
+    private javax.swing.JLabel lblFiltroProduto;
     private javax.swing.JPanel pFiltro;
     private javax.swing.JTable tpFiltroProduto;
     private javax.swing.JTextField txtFiltroProduto;

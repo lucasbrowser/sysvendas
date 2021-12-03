@@ -5,6 +5,7 @@
  */
 package com.lucas.sysvendas.model.domain;
 
+import com.lucas.sysvendas.formatter.DoubleFormatoMoeda;
 import com.towel.el.annotation.Resolvable;
 
 /**
@@ -25,7 +26,7 @@ public class VendaItem {
     @Resolvable(colName = "Quantidade")
     private Long quantidade;
     
-    @Resolvable(colName = "Valor Unitário")
+    @Resolvable(colName = "Valor Unitário", formatter = DoubleFormatoMoeda.class)
     private Double valorUnitario;
 
     public Long getCodigo() {

@@ -48,9 +48,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblFiltroFornecedor" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblFiltroCliente" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtFiltroFornecedor" min="-2" pref="409" max="-2" attributes="0"/>
+                  <Component id="txtFiltroCliente" min="-2" pref="409" max="-2" attributes="0"/>
                   <EmptySpace pref="28" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -60,8 +60,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblFiltroFornecedor" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtFiltroFornecedor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblFiltroCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtFiltroCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="18" max="32767" attributes="0"/>
               </Group>
@@ -69,14 +69,14 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="lblFiltroFornecedor">
+        <Component class="javax.swing.JLabel" name="lblFiltroCliente">
           <Properties>
             <Property name="text" type="java.lang.String" value="Filtro:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtFiltroFornecedor">
+        <Component class="javax.swing.JTextField" name="txtFiltroCliente">
           <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtFiltroFornecedorKeyReleased"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtFiltroClienteKeyReleased"/>
           </Events>
         </Component>
       </SubComponents>
@@ -88,10 +88,10 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tpFiltroFornecedor">
+        <Component class="javax.swing.JTable" name="tpFiltroCliente">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="otmFiltroFornecedor" type="code"/>
+              <Connection code="otmFiltroCliente" type="code"/>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0"/>
@@ -101,7 +101,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tpFiltroFornecedorMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tpFiltroClienteMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>

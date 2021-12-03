@@ -5,9 +5,9 @@
  */
 package com.lucas.sysvendas.view.consultas;
 
-import com.lucas.sysvendas.control.FornecedorControl;
-import com.lucas.sysvendas.model.domain.Fornecedor;
-import com.lucas.sysvendas.view.cadastro.TelaCompra;
+import com.lucas.sysvendas.control.ClienteControl;
+import com.lucas.sysvendas.model.domain.Cliente;
+import com.lucas.sysvendas.view.venda.TelaVenda;
 import com.towel.swing.table.ObjectTableModel;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -18,19 +18,19 @@ import javax.swing.table.TableRowSorter;
  *
  * @author lucas
  */
-public class TelaBuscaFornecedor extends javax.swing.JDialog {
+public class TelaBuscaCliente extends javax.swing.JDialog {
     
     JInternalFrame parent;
     
-    private final ObjectTableModel<Fornecedor> otmFiltroFornecedor = new ObjectTableModel<>(Fornecedor.class, "codigo,nomeFantasia,cnpj,telefone,celular,email");
+    private final ObjectTableModel<Cliente> otmFiltroCliente = new ObjectTableModel<>(Cliente.class, "codigo,nomeFantasia,cpfCnpj,telefone,celular,email");
     
-    private final FornecedorControl fornecedorControl = new FornecedorControl();
+    private final ClienteControl clienteControl = new ClienteControl();
 
     /**
-     * Creates new form TelaModalDepartamento
+     * Creates new form TelaModalCliente
      * @param parent
      */
-    public TelaBuscaFornecedor(JInternalFrame parent) {
+    public TelaBuscaCliente(JInternalFrame parent) {
         super();
         this.parent = parent;
         initComponents();
@@ -40,7 +40,7 @@ public class TelaBuscaFornecedor extends javax.swing.JDialog {
     private void carregarGrade() {
         
         try {      
-            otmFiltroFornecedor.setData(fornecedorControl.listarTodos());
+            otmFiltroCliente.setData(clienteControl.listarTodos());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -56,20 +56,20 @@ public class TelaBuscaFornecedor extends javax.swing.JDialog {
     private void initComponents() {
 
         pFiltro = new javax.swing.JPanel();
-        lblFiltroFornecedor = new javax.swing.JLabel();
-        txtFiltroFornecedor = new javax.swing.JTextField();
+        lblFiltroCliente = new javax.swing.JLabel();
+        txtFiltroCliente = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tpFiltroFornecedor = new javax.swing.JTable();
+        tpFiltroCliente = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscar Departamento");
         setModal(true);
 
-        lblFiltroFornecedor.setText("Filtro:");
+        lblFiltroCliente.setText("Filtro:");
 
-        txtFiltroFornecedor.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtFiltroCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtFiltroFornecedorKeyReleased(evt);
+                txtFiltroClienteKeyReleased(evt);
             }
         });
 
@@ -79,9 +79,9 @@ public class TelaBuscaFornecedor extends javax.swing.JDialog {
             pFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pFiltroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblFiltroFornecedor)
+                .addComponent(lblFiltroCliente)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtFiltroFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFiltroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(28, Short.MAX_VALUE))
         );
         pFiltroLayout.setVerticalGroup(
@@ -89,18 +89,18 @@ public class TelaBuscaFornecedor extends javax.swing.JDialog {
             .addGroup(pFiltroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFiltroFornecedor)
-                    .addComponent(txtFiltroFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblFiltroCliente)
+                    .addComponent(txtFiltroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        tpFiltroFornecedor.setModel(otmFiltroFornecedor);
-        tpFiltroFornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
+        tpFiltroCliente.setModel(otmFiltroCliente);
+        tpFiltroCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tpFiltroFornecedorMouseClicked(evt);
+                tpFiltroClienteMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tpFiltroFornecedor);
+        jScrollPane1.setViewportView(tpFiltroCliente);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,34 +121,34 @@ public class TelaBuscaFornecedor extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFiltroFornecedorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroFornecedorKeyReleased
-        TableRowSorter rs = new TableRowSorter(otmFiltroFornecedor);
-        rs.setRowFilter(RowFilter.regexFilter("(?i)" + txtFiltroFornecedor.getText().trim()));
-        tpFiltroFornecedor.setRowSorter(rs);
-    }//GEN-LAST:event_txtFiltroFornecedorKeyReleased
+    private void txtFiltroClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroClienteKeyReleased
+        TableRowSorter rs = new TableRowSorter(otmFiltroCliente);
+        rs.setRowFilter(RowFilter.regexFilter("(?i)" + txtFiltroCliente.getText().trim()));
+        tpFiltroCliente.setRowSorter(rs);
+    }//GEN-LAST:event_txtFiltroClienteKeyReleased
 
-    private void tpFiltroFornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tpFiltroFornecedorMouseClicked
+    private void tpFiltroClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tpFiltroClienteMouseClicked
         if (evt.getClickCount() >= 2) {
             
-            Fornecedor fornecedor = null;
+            Cliente cliente = null;
             
-            if (tpFiltroFornecedor.getRowSorter() != null) {
-                int linhaSelecionada = tpFiltroFornecedor.getRowSorter().convertRowIndexToModel(tpFiltroFornecedor.getSelectedRow());
-                fornecedor = otmFiltroFornecedor.getValue(linhaSelecionada);
+            if (tpFiltroCliente.getRowSorter() != null) {
+                int linhaSelecionada = tpFiltroCliente.getRowSorter().convertRowIndexToModel(tpFiltroCliente.getSelectedRow());
+                cliente = otmFiltroCliente.getValue(linhaSelecionada);
             } else {
-                fornecedor = otmFiltroFornecedor.getValue(tpFiltroFornecedor.getSelectedRow());
+                cliente = otmFiltroCliente.getValue(tpFiltroCliente.getSelectedRow());
             }
 
-            if (parent instanceof TelaCompra) {
-                TelaCompra tc = (TelaCompra) parent;
-                tc.setFornecedor(fornecedor);
+            if (parent instanceof TelaVenda) {
+                TelaVenda tc = (TelaVenda) parent;
+                tc.setCliente(cliente);
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Campo de destino inválido.", "Alerta", JOptionPane.WARNING_MESSAGE);
             }
 
         }
-    }//GEN-LAST:event_tpFiltroFornecedorMouseClicked
+    }//GEN-LAST:event_tpFiltroClienteMouseClicked
 
     /**
      * @param args the command line arguments
@@ -167,21 +167,23 @@ public class TelaBuscaFornecedor extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaBuscaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaBuscaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaBuscaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaBuscaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaBuscaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaBuscaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaBuscaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaBuscaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TelaBuscaFornecedor dialog = new TelaBuscaFornecedor(new javax.swing.JInternalFrame());
+                TelaBuscaCliente dialog = new TelaBuscaCliente(new javax.swing.JInternalFrame());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -195,9 +197,9 @@ public class TelaBuscaFornecedor extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblFiltroFornecedor;
+    private javax.swing.JLabel lblFiltroCliente;
     private javax.swing.JPanel pFiltro;
-    private javax.swing.JTable tpFiltroFornecedor;
-    private javax.swing.JTextField txtFiltroFornecedor;
+    private javax.swing.JTable tpFiltroCliente;
+    private javax.swing.JTextField txtFiltroCliente;
     // End of variables declaration//GEN-END:variables
 }

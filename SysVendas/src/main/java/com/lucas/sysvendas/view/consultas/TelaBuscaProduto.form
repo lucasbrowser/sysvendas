@@ -48,7 +48,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblFiltroDepartamento" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblFiltroProduto" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtFiltroProduto" min="-2" pref="409" max="-2" attributes="0"/>
                   <EmptySpace pref="28" max="32767" attributes="0"/>
@@ -60,7 +60,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblFiltroDepartamento" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblFiltroProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtFiltroProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="18" max="32767" attributes="0"/>
@@ -69,7 +69,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="lblFiltroDepartamento">
+        <Component class="javax.swing.JLabel" name="lblFiltroProduto">
           <Properties>
             <Property name="text" type="java.lang.String" value="Filtro:"/>
           </Properties>

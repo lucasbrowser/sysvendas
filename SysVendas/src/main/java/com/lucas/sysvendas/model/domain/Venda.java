@@ -5,6 +5,8 @@
  */
 package com.lucas.sysvendas.model.domain;
 
+import com.lucas.sysvendas.formatter.DataFormatter;
+import com.lucas.sysvendas.formatter.DoubleFormatoMoeda;
 import com.lucas.sysvendas.model.enums.SituacaoEnum;
 import com.towel.el.annotation.Resolvable;
 import java.util.Date;
@@ -23,10 +25,10 @@ public class Venda {
     @Resolvable(colName = "Cliente")
     private Cliente cliente;
     
-    @Resolvable(colName = "Data Venda")
+    @Resolvable(colName = "Data Venda", formatter = DataFormatter.class)
     private Date dataVenda;
     
-    @Resolvable(colName = "Valor Total")
+    @Resolvable(colName = "Valor Total", formatter = DoubleFormatoMoeda.class)
     private Double valorTotal;
     
     @Resolvable(colName = "Situação")
