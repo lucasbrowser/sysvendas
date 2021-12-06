@@ -174,7 +174,7 @@ public class TelaVenda extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bFinalizar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bRemover)
+                .addComponent(bRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bCancelar)
                 .addContainerGap(43, Short.MAX_VALUE))
@@ -620,7 +620,6 @@ private void habilitarFormulario(boolean b) {
         ftfProduto.setValue(null);
         spQuantidade.setValue(1);
         ftfValorUnitario.setValue(new Double(0));
-        tpVendaItem.setModel(otmVendaItem);
         limpaFormularioItens();
     }
     

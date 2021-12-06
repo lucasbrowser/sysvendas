@@ -26,7 +26,19 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class Relatorio {
     
-    public void gerarRelatorio(List lista, Map<String, Object> parametros, String relatorioJasper, String relatorioPdf) {
+    public void gerarRelatorio(List lista, Map<String, Object> parametros, String relatorioJasper) {
+        
+        try {
+            JRDataSource jrds = new JRBeanCollectionDataSource(lista);
+            JasperPrint print = JasperFillManager.fillReport(relatorioJasper, parametros, jrds);
+            JasperViewer.viewReport(print, false);     
+        } catch (HeadlessException | JRException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+     public void gerarRelatorioComPdf(List lista, Map<String, Object> parametros, String relatorioJasper, String relatorioPdf) {
         
         try {
             JRDataSource jrds = new JRBeanCollectionDataSource(lista);

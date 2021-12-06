@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VendaItem" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="9ea820c9-8fb2-4f89-bc1c-23bdd861c480">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
+	<parameter name="cod_venda" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Long">
+		<fieldDescription><![CDATA[codigo]]></fieldDescription>
+	</field>
+	<field name="produto" class="com.lucas.sysvendas.model.domain.Produto">
+		<fieldDescription><![CDATA[produto]]></fieldDescription>
+	</field>
+	<field name="venda" class="com.lucas.sysvendas.model.domain.Venda">
+		<fieldDescription><![CDATA[venda]]></fieldDescription>
+	</field>
+	<field name="quantidade" class="java.lang.Long">
+		<fieldDescription><![CDATA[quantidade]]></fieldDescription>
+	</field>
+	<field name="valorUnitario" class="java.lang.Double">
+		<fieldDescription><![CDATA[valorUnitario]]></fieldDescription>
+	</field>
+	<variable name="Total" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{valorUnitario} * $F{quantidade}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="481" y="0" width="66" height="20" uuid="aa9fe4ea-b682-4cab-9e15-6bffe2606d8f">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$V{Total}]]></textFieldExpression>
+				<patternExpression><![CDATA["¤ #,##0.00"]]></patternExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="300" height="19" uuid="47e337d4-7055-4ee5-893f-9ac255976907"/>
+				<textFieldExpression><![CDATA[$F{produto}.getDescricao()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="85" height="20" uuid="aa53ffc8-c92b-4670-a2cf-b781721d6b77"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="385" y="0" width="96" height="20" uuid="1a7b1a26-1f93-4f48-b358-75bafb53d025"/>
+				<textFieldExpression><![CDATA[$F{valorUnitario}]]></textFieldExpression>
+				<patternExpression><![CDATA["¤ #,##0.00"]]></patternExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

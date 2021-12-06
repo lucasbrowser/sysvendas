@@ -27,6 +27,10 @@ public class VendaControl {
         return vendaDAO.listarTodos();
     }
     
+    public List<Venda> listarVendaSelecionada(Long codigoVenda) throws Exception {
+        return vendaDAO.listarVendaSelecionada(codigoVenda);
+    }
+    
     public void inserirVenda(Venda venda) throws Exception {
         vendaDAO.inserir(venda);
     }

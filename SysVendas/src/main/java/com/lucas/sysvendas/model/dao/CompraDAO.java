@@ -91,13 +91,6 @@ public class CompraDAO extends ConexaoPostgres {
             ps.setInt(4, compra.getSituacao().getId());
             ps.setLong(5, compra.getCodigo());
             ps.execute();
-            
-            for (CompraItem compraItem : compra.getItens()) {
-                sql = "DELETE FROM COMPRAS_ITENS WHERE CODIGO=?";
-                ps = this.getCon().prepareStatement(sql);
-                ps.setLong(1, compraItem.getCodigo());
-                ps.execute();
-            }
 
             for (CompraItem compraItem : compra.getItens()) {
                 

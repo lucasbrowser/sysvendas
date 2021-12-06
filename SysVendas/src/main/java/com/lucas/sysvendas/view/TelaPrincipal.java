@@ -7,6 +7,7 @@ import com.lucas.sysvendas.view.cadastro.TelaCompra;
 import com.lucas.sysvendas.view.cadastro.TelaFornecedor;
 import com.lucas.sysvendas.view.cadastro.TelaProduto;
 import com.lucas.sysvendas.view.cadastro.TelaUsuario;
+import com.lucas.sysvendas.view.relatorios.TelaRelatorioVenda;
 import com.lucas.sysvendas.view.venda.TelaVenda;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -54,6 +55,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         mMovimento = new javax.swing.JMenu();
         miCompras = new javax.swing.JMenuItem();
         miVendas = new javax.swing.JMenuItem();
+        mRelatorio = new javax.swing.JMenu();
+        mVendas = new javax.swing.JMenu();
+        miVendaSelecionada = new javax.swing.JMenuItem();
         mFerramentas = new javax.swing.JMenu();
         miCalculadora = new javax.swing.JMenuItem();
         mSistema = new javax.swing.JMenu();
@@ -198,6 +202,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuBar.add(mMovimento);
 
+        mRelatorio.setText("Relatorios");
+
+        mVendas.setText("Vendas");
+
+        miVendaSelecionada.setText("Vendas Gerais");
+        miVendaSelecionada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miVendaSelecionadaActionPerformed(evt);
+            }
+        });
+        mVendas.add(miVendaSelecionada);
+
+        mRelatorio.add(mVendas);
+
+        menuBar.add(mRelatorio);
+
         mFerramentas.setText("Ferramentas");
 
         miCalculadora.setText("Calculadora");
@@ -268,6 +288,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         c.setVisible(true);
     }//GEN-LAST:event_miVendasActionPerformed
 
+    private void miVendaSelecionadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miVendaSelecionadaActionPerformed
+        TelaRelatorioVenda c = new TelaRelatorioVenda();
+        desktopPane.add(c);
+        c.setVisible(true);
+    }//GEN-LAST:event_miVendaSelecionadaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bClientes;
     private javax.swing.JButton btSair;
@@ -279,7 +305,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu mCadastro;
     private javax.swing.JMenu mFerramentas;
     private javax.swing.JMenu mMovimento;
+    private javax.swing.JMenu mRelatorio;
     private javax.swing.JMenu mSistema;
+    private javax.swing.JMenu mVendas;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem miCalculadora;
     private javax.swing.JMenuItem miCliente;
@@ -288,6 +316,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem miProduto;
     private javax.swing.JMenuItem miSair;
     private javax.swing.JMenuItem miUsuario;
+    private javax.swing.JMenuItem miVendaSelecionada;
     private javax.swing.JMenuItem miVendas;
     private javax.swing.JPanel pStatusBar;
     private javax.swing.JToolBar toolBar;

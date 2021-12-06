@@ -100,7 +100,7 @@ public class ProdutoDAO extends ConexaoPostgres {
         List listaProdutos = new LinkedList();
         try{
             this.conectar();
-            this.executarSQL("SELECT * FROM PRODUTOS ORDER BY DESCRICAO");
+            this.executarSQL("SELECT * FROM PRODUTOS ORDER BY CODIGO");
             while (this.getResultSet().next()) {
                 Produto produto = new Produto();
                 produto.setCodigo(this.getResultSet().getLong("CODIGO"));

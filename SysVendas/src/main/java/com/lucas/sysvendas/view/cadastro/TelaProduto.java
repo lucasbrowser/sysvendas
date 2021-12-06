@@ -7,7 +7,9 @@ package com.lucas.sysvendas.view.cadastro;
 
 import com.lucas.sysvendas.control.ProdutoControl;
 import com.lucas.sysvendas.model.domain.Produto;
+import com.lucas.sysvendas.report.Relatorio;
 import com.towel.swing.table.ObjectTableModel;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,6 +23,8 @@ public class TelaProduto extends javax.swing.JInternalFrame {
     private final ProdutoControl produtoControl = new ProdutoControl();
     
     private Produto produto;
+    
+    private Relatorio relatorio;
 
     /**
      * Creates new form TelaDepartamento
@@ -54,6 +58,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         bSalvarProduto = new javax.swing.JButton();
         bRemoverProduto = new javax.swing.JButton();
         bCancelarProduto = new javax.swing.JButton();
+        bImprimir = new javax.swing.JButton();
         pConteudo = new javax.swing.JPanel();
         txtDescricao = new javax.swing.JTextField();
         lblDescricao = new javax.swing.JLabel();
@@ -102,12 +107,20 @@ public class TelaProduto extends javax.swing.JInternalFrame {
             }
         });
 
+        bImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/impressora.png"))); // NOI18N
+        bImprimir.setText("Imprimir");
+        bImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pBarraFerramentasLayout = new javax.swing.GroupLayout(pBarraFerramentas);
         pBarraFerramentas.setLayout(pBarraFerramentasLayout);
         pBarraFerramentasLayout.setHorizontalGroup(
             pBarraFerramentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pBarraFerramentasLayout.createSequentialGroup()
-                .addGap(65, 65, 65)
+                .addContainerGap()
                 .addComponent(bNovoProduto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bSalvarProduto)
@@ -115,6 +128,8 @@ public class TelaProduto extends javax.swing.JInternalFrame {
                 .addComponent(bRemoverProduto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bCancelarProduto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bImprimir)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pBarraFerramentasLayout.setVerticalGroup(
@@ -123,11 +138,13 @@ public class TelaProduto extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pBarraFerramentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bCancelarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bNovoProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bSalvarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pBarraFerramentasLayout.createSequentialGroup()
                         .addGap(1, 1, 1)
-                        .addComponent(bRemoverProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-                    .addComponent(bNovoProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bSalvarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(pBarraFerramentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bRemoverProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -204,7 +221,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
                 .addComponent(pBarraFerramentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
@@ -277,9 +294,14 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tpProdutoMouseClicked
 
+    private void bImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bImprimirActionPerformed
+        gerarRelatorioProdutos();
+    }//GEN-LAST:event_bImprimirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancelarProduto;
+    private javax.swing.JButton bImprimir;
     private javax.swing.JButton bNovoProduto;
     private javax.swing.JButton bRemoverProduto;
     private javax.swing.JButton bSalvarProduto;
@@ -340,6 +362,18 @@ public class TelaProduto extends javax.swing.JInternalFrame {
             return false;
         }
         return true;
+    }
+    
+    private void gerarRelatorioProdutos() {
+        try {
+            relatorio = new Relatorio();
+            List<Produto> lProduto = produtoControl.listarTodos();
+            String pathRelatorio = "src/main/resources/reports/Produtos.jasper";
+            relatorio.gerarRelatorio(lProduto, null, pathRelatorio);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao imprimir o relatório.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
 
 

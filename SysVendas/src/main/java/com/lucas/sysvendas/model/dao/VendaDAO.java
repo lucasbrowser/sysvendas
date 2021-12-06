@@ -23,8 +23,6 @@ import java.util.List;
  */
 public class VendaDAO extends ConexaoPostgres {
     
-    ProdutoDAO produtoDAO = new ProdutoDAO();
-    
     public void inserir(Venda venda) throws Exception {
         try{
             this.conectar();
@@ -63,6 +61,7 @@ public class VendaDAO extends ConexaoPostgres {
                 ps.execute();
                 
                 if (venda.getSituacao() == SituacaoEnum.FINALIZADA) {
+                    ProdutoDAO produtoDAO = new ProdutoDAO();
                     produtoDAO.saidaEstoque(iv.getProduto().getCodigo(), iv.getQuantidade());
                 }
         }
@@ -91,13 +90,6 @@ public class VendaDAO extends ConexaoPostgres {
             ps.setInt(4, venda.getSituacao().getId());
             ps.setLong(5, venda.getCodigo());
             ps.execute();
-            
-            for (VendaItem vendaItem : venda.getItens()) {
-                sql = "DELETE FROM VENDAS_ITENS WHERE CODIGO=?";
-                ps = this.getCon().prepareStatement(sql);
-                ps.setLong(1, vendaItem.getCodigo());
-                ps.execute();
-            }
 
             for (VendaItem vendaItem : venda.getItens()) {
                 
@@ -136,6 +128,7 @@ public class VendaDAO extends ConexaoPostgres {
                 }
                 
                 if (venda.getSituacao() == SituacaoEnum.FINALIZADA) {
+                    ProdutoDAO produtoDAO = new ProdutoDAO();
                     produtoDAO.saidaEstoque(vendaItem.getProduto().getCodigo(), vendaItem.getQuantidade());
                 }
             }
@@ -176,8 +169,54 @@ public class VendaDAO extends ConexaoPostgres {
             ProdutoDAO produtoDAO = new ProdutoDAO();
             VendaControl vendaControl = new VendaControl();
 
-            String sql = "SELECT * FROM VENDAS ORDER BY DATA_VENDA DESC";
+            String sql = "SELECT * FROM VENDAS ORDER BY CODIGO DESC";
             PreparedStatement ps = this.getCon().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Venda venda = new Venda();
+                venda.setCodigo(rs.getLong("CODIGO"));
+                venda.setCliente(clienteDAO.recuperar(rs.getInt("CLIENTE")));
+                venda.setDataVenda(rs.getDate("DATA_VENDA"));
+                venda.setValorTotal(rs.getDouble("VALOR_TOTAL"));
+                venda.setSituacao(vendaControl.gravarSituacao(rs.getInt("SITUACAO")));
+
+                String sqlItem = "SELECT * FROM VENDAS_ITENS WHERE VENDA = ?";
+                PreparedStatement psItem = this.getCon().prepareStatement(sqlItem);
+                psItem.setLong(1, venda.getCodigo());
+                ResultSet rsItem = psItem.executeQuery();
+
+                while (rsItem.next()) {
+                    VendaItem vendaItem = new VendaItem();
+                    vendaItem.setCodigo(rsItem.getLong("CODIGO"));
+                    vendaItem.setProduto(produtoDAO.recuperar(rsItem.getLong("PRODUTO")));
+                    vendaItem.setVenda(venda);
+                    vendaItem.setQuantidade(rsItem.getLong("QUANTIDADE"));
+                    vendaItem.setValorUnitario(rsItem.getDouble("VALOR_UNITARIO"));
+                    venda.getItens().add(vendaItem);
+                }
+
+                listaVendas.add(venda);
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            this.fecharConexao();
+        }
+        return listaVendas;
+    }
+    
+    public List<Venda> listarVendaSelecionada(Long codigoVenda) throws Exception {
+        List listaVendas = new LinkedList();
+        try{
+            this.conectar();
+            ClienteDAO clienteDAO = new ClienteDAO();
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+            VendaControl vendaControl = new VendaControl();
+
+            String sql = "SELECT * FROM VENDAS WHERE CODIGO = ?";
+            PreparedStatement ps = this.getCon().prepareStatement(sql);
+            ps.setLong(1, codigoVenda);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -218,6 +257,7 @@ public class VendaDAO extends ConexaoPostgres {
         try{
             this.conectar();
             ClienteDAO clienteDAO = new ClienteDAO();
+            ProdutoDAO produtoDAO = new ProdutoDAO();
             VendaControl vendaControl = new VendaControl();
 
             String sql = "SELECT * FROM VENDAS ORDER BY DATA_VENDA DESC";
