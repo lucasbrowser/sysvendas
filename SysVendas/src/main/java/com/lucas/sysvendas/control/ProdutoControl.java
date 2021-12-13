@@ -9,6 +9,7 @@ package com.lucas.sysvendas.control;
 
 import com.lucas.sysvendas.model.dao.ProdutoDAO;
 import com.lucas.sysvendas.model.domain.Produto;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import java.util.List;
 
 /**
@@ -19,19 +20,19 @@ public class ProdutoControl {
     
     ProdutoDAO produtoDAO = new ProdutoDAO();
     
-    public List<Produto> listarTodos() throws Exception {
+    public List<Produto> listarTodos() throws ErroException {
         return produtoDAO.listarTodos();
     }
     
-    public void inserirProduto(Produto produto) throws Exception {
+    public void inserirProduto(Produto produto) throws ErroException {
         produtoDAO.inserir(produto);
     }
     
-    public void alterarProduto(Produto produto) throws Exception {
+    public void alterarProduto(Produto produto) throws ErroException {
         produtoDAO.alterar(produto);
     }
     
-    public void excluirProduto(Produto produto) throws Exception {
+    public void excluirProduto(Produto produto) throws ErroException {
         produtoDAO.excluir(produto);
     }
 }

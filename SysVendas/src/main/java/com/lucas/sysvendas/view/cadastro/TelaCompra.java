@@ -11,6 +11,7 @@ import com.lucas.sysvendas.model.domain.CompraItem;
 import com.lucas.sysvendas.model.domain.Fornecedor;
 import com.lucas.sysvendas.model.domain.Produto;
 import com.lucas.sysvendas.model.enums.SituacaoEnum;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import com.lucas.sysvendas.view.consultas.TelaBuscaFornecedor;
 import com.lucas.sysvendas.view.consultas.TelaBuscaProduto;
 import com.towel.swing.table.ObjectTableModel;
@@ -60,7 +61,7 @@ public class TelaCompra extends javax.swing.JInternalFrame {
         
         try {      
             otmCompra.setData(compraControl.listarTodos());
-        } catch (Exception ex) {
+        } catch (ErroException ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -546,7 +547,7 @@ private void habilitarFormulario(boolean b) {
     
     private void setarCompraItens() {
         
-        CompraItem compraItem = new CompraItem();
+        compraItem = new CompraItem();
         compraItem.setProduto((Produto) ftfProduto.getValue());
         compraItem.setCompra(compra);
         compraItem.setQuantidade(Long.parseLong(String.valueOf(spQuantidade.getValue())));
@@ -570,14 +571,14 @@ private void habilitarFormulario(boolean b) {
             if (compra.getCodigo() == 0) {
                 try {
                     compraControl.inserirCompra(compra);
-                } catch (Exception ex) {
+                } catch (ErroException ex) {
                     JOptionPane.showMessageDialog(this, "Erro ao inserir a compra.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } else {
                 try {
                     compraControl.alterarCompra(compra);
-                } catch (Exception ex) {
+                } catch (ErroException ex) {
                     JOptionPane.showMessageDialog(this, "Erro ao alterar a compra.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -594,7 +595,7 @@ private void habilitarFormulario(boolean b) {
             ftfFornecedor.requestFocus();
             return false;
         }
-        if (compra.getItens().size() == 0) {
+        if (compra.getItens().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Quantidade de itens inválida.", "Alerta", JOptionPane.WARNING_MESSAGE);
             tpConteudoCompra.setSelectedIndex(1);
             return false;

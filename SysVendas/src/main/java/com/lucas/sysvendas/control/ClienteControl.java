@@ -10,6 +10,7 @@ package com.lucas.sysvendas.control;
 import com.lucas.sysvendas.model.dao.ClienteDAO;
 import com.lucas.sysvendas.model.domain.Cliente;
 import com.lucas.sysvendas.model.domain.ClienteEndereco;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import java.util.Date;
 import java.util.List;
 
@@ -24,23 +25,23 @@ public class ClienteControl {
     private ClienteEndereco clienteEndereco;
     
     
-    public List<Cliente> listarTodos() throws Exception {
+    public List<Cliente> listarTodos() throws ErroException {
         return clienteDAO.listarTodos();
     }
     
-    public List<ClienteEndereco> recuperarEndereco(Cliente cliente) throws Exception {
+    public List<ClienteEndereco> recuperarEndereco(Cliente cliente) throws ErroException {
         return clienteDAO.recuperarEndereco(cliente);
     }
     
-    public void inserirCliente(Cliente cliente) throws Exception {
+    public void inserirCliente(Cliente cliente) throws ErroException {
         clienteDAO.inserir(cliente);
     }
     
-    public void alterarCliente(Cliente cliente) throws Exception {
+    public void alterarCliente(Cliente cliente) throws ErroException {
         clienteDAO.alterar(cliente);
     }
     
-    public void excluirCliente(Cliente cliente) throws Exception {
+    public void excluirCliente(Cliente cliente) throws ErroException {
         clienteDAO.excluir(cliente);
     }
     

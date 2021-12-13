@@ -10,9 +10,11 @@ import com.lucas.sysvendas.control.VendaControl;
 import com.lucas.sysvendas.model.domain.Venda;
 import com.lucas.sysvendas.model.domain.VendaItem;
 import com.lucas.sysvendas.model.enums.SituacaoEnum;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +25,7 @@ import java.util.List;
  */
 public class VendaDAO extends ConexaoPostgres {
     
-    public void inserir(Venda venda) throws Exception {
+    public void inserir(Venda venda) throws ErroException {
         try{
             this.conectar();
             
@@ -65,14 +67,15 @@ public class VendaDAO extends ConexaoPostgres {
                     produtoDAO.saidaEstoque(iv.getProduto().getCodigo(), iv.getQuantidade());
                 }
         }
-        }catch(Exception e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
     }
 
-    public void alterar(Venda venda) throws Exception {
+    public void alterar(Venda venda) throws ErroException {
         try{
             this.conectar();
             
@@ -133,15 +136,16 @@ public class VendaDAO extends ConexaoPostgres {
                 }
             }
             
-        }catch(Exception e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
     }
 
 
-    public void excluir(Venda venda) throws Exception {
+    public void excluir(Venda venda) throws ErroException {
         try {
             this.conectar();
             this.executarUpdateDeleteSQL(
@@ -154,14 +158,15 @@ public class VendaDAO extends ConexaoPostgres {
                     + "CODIGO = '" + venda.getCodigo() + "'"
                 + ";"
             );
-        }catch(Exception e){
+        } catch(Exception e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
     }
 
-    public List<Venda> listarTodos() throws Exception {
+    public List<Venda> listarTodos() throws ErroException {
         List listaVendas = new LinkedList();
         try{
             this.conectar();
@@ -198,17 +203,18 @@ public class VendaDAO extends ConexaoPostgres {
 
                 listaVendas.add(venda);
         }
-        }catch(Exception e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
         return listaVendas;
     }
     
-    public List<Venda> listarVendaSelecionada(Long codigoVenda) throws Exception {
+    public List<Venda> listarVendaSelecionada(Long codigoVenda) throws ErroException {
         List listaVendas = new LinkedList();
-        try{
+        try {
             this.conectar();
             ClienteDAO clienteDAO = new ClienteDAO();
             ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -244,17 +250,19 @@ public class VendaDAO extends ConexaoPostgres {
 
                 listaVendas.add(venda);
         }
-        }catch(Exception e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
+        
         return listaVendas;
     }
 
-    public Venda recuperar() throws Exception {
+    public Venda recuperar() throws ErroException {
         Venda venda = new Venda();
-        try{
+        try {
             this.conectar();
             ClienteDAO clienteDAO = new ClienteDAO();
             ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -287,11 +295,13 @@ public class VendaDAO extends ConexaoPostgres {
                 }
 
             }
-        }catch(Exception e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
+        
         return venda;
     }
     

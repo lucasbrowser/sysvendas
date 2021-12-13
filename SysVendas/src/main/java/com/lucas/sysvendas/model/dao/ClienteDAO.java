@@ -8,6 +8,7 @@ package com.lucas.sysvendas.model.dao;
 import com.lucas.sysvendas.bd.ConexaoPostgres;
 import com.lucas.sysvendas.model.domain.Cliente;
 import com.lucas.sysvendas.model.domain.ClienteEndereco;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 public class ClienteDAO extends ConexaoPostgres {
     
-    public void inserir(Cliente cliente) throws Exception {
+    public void inserir(Cliente cliente) throws ErroException {
         try{           
             this.conectar();
             
@@ -79,15 +80,16 @@ public class ClienteDAO extends ConexaoPostgres {
                 ps.execute();
             }
             
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
     }
 
-    public void alterar(Cliente cliente) throws Exception {
-        try{
+    public void alterar(Cliente cliente) throws ErroException {
+        try {
             this.conectar();
             String sql = "UPDATE CLIENTES SET "
                     + "NOME_FANTASIA = ?, "
@@ -140,28 +142,30 @@ public class ClienteDAO extends ConexaoPostgres {
                 ps.execute();
             }
             
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
     }
 
-    public void excluir(Cliente cliente) throws Exception {
-        try{
+    public void excluir(Cliente cliente) throws ErroException {
+        try {
             this.conectar();
             String sql = "DELETE FROM CLIENTES WHERE CODIGO = ?";
             PreparedStatement ps = this.getCon().prepareStatement(sql);
             ps.setLong(1, cliente.getCodigo());
             ps.execute();
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
     }
 
-    public List<Cliente> listarTodos() throws Exception {
+    public List<Cliente> listarTodos() throws ErroException {
         List listaClientes = new LinkedList();
         try{
             this.conectar();
@@ -182,17 +186,19 @@ public class ClienteDAO extends ConexaoPostgres {
                 cliente.setEmail(rs.getString("EMAIL"));
                 listaClientes.add(cliente);
             }
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
+        
         return listaClientes;
     }
 
-    public Cliente recuperar(int codigo) throws Exception {
+    public Cliente recuperar(int codigo) throws ErroException {
         Cliente cliente = new Cliente();
-        try{
+        try {
             this.conectar();
             String sql = "SELECT * FROM CLIENTES WHERE CODIGO = ?";
             PreparedStatement ps = this.getCon().prepareStatement(sql);
@@ -210,17 +216,18 @@ public class ClienteDAO extends ConexaoPostgres {
                 cliente.setCelular(rs.getString("CELULAR"));
                 cliente.setEmail(rs.getString("EMAIL"));
             }
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
         return cliente;
     }
     
-    public List<ClienteEndereco> recuperarEndereco(Cliente cliente) throws Exception {
+    public List<ClienteEndereco> recuperarEndereco(Cliente cliente) throws ErroException {
         List<ClienteEndereco> lEndereco = new LinkedList<>();
-        try{
+        try {
             this.conectar();
             String sql = "SELECT * FROM CLIENTES_ENDERECOS WHERE CLIENTE = ?";
             PreparedStatement ps = this.getCon().prepareStatement(sql);
@@ -239,11 +246,13 @@ public class ClienteDAO extends ConexaoPostgres {
                 endereco.setCep(rs.getString("CEP"));
                 lEndereco.add(endereco);
             }
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
+        
         return lEndereco;
     }
     

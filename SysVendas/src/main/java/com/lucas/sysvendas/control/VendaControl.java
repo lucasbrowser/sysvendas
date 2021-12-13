@@ -10,6 +10,7 @@ package com.lucas.sysvendas.control;
 import com.lucas.sysvendas.model.dao.VendaDAO;
 import com.lucas.sysvendas.model.domain.Venda;
 import com.lucas.sysvendas.model.enums.SituacaoEnum;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import java.util.List;
 
 /**
@@ -23,27 +24,27 @@ public class VendaControl {
 
     
     
-    public List<Venda> listarTodos() throws Exception {
+    public List<Venda> listarTodos() throws ErroException {
         return vendaDAO.listarTodos();
     }
     
-    public List<Venda> listarVendaSelecionada(Long codigoVenda) throws Exception {
+    public List<Venda> listarVendaSelecionada(Long codigoVenda) throws ErroException {
         return vendaDAO.listarVendaSelecionada(codigoVenda);
     }
     
-    public void inserirVenda(Venda venda) throws Exception {
+    public void inserirVenda(Venda venda) throws ErroException {
         vendaDAO.inserir(venda);
     }
     
-    public void alterarVenda(Venda venda) throws Exception {
+    public void alterarVenda(Venda venda) throws ErroException {
         vendaDAO.alterar(venda);
     }
     
-    public void excluirVenda(Venda venda) throws Exception {
+    public void excluirVenda(Venda venda) throws ErroException {
         vendaDAO.excluir(venda);
     }
     
-    public Venda recuperar() throws Exception {
+    public Venda recuperar() throws ErroException {
         return vendaDAO.recuperar();
     }
     

@@ -8,6 +8,7 @@ package com.lucas.sysvendas.view.cadastro;
 import com.lucas.sysvendas.control.FornecedorControl;
 import com.lucas.sysvendas.model.domain.Fornecedor;
 import com.lucas.sysvendas.model.domain.FornecedorEndereco;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import com.towel.swing.table.ObjectTableModel;
 import java.awt.event.KeyEvent;
 import java.util.Date;
@@ -47,7 +48,7 @@ public class TelaFornecedor extends javax.swing.JInternalFrame {
 
             try {
                 otmFornecedorEndereco.setData(fornecedorControl.recuperarEndereco(fornecedorSelecionado));
-            } catch (Exception ex) {
+            } catch (ErroException ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao carregar o endereço do fornecedor.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         } 
@@ -58,7 +59,7 @@ public class TelaFornecedor extends javax.swing.JInternalFrame {
         
         try {      
             otmFornecedor.setData(fornecedorControl.listarTodos());
-        } catch (Exception ex) {
+        } catch (ErroException ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -481,7 +482,7 @@ public class TelaFornecedor extends javax.swing.JInternalFrame {
             
             try {
                 otmFornecedorEndereco.setData(fornecedorControl.recuperarEndereco(fornecedor));
-            } catch (Exception ex) {
+            } catch (ErroException ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao carregar o endereço do fornecedor.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -506,14 +507,14 @@ public class TelaFornecedor extends javax.swing.JInternalFrame {
             if (fornecedor.getCodigo() == 0) {
                 try {
                     fornecedorControl.inserirFornecedor(fornecedor);
-                } catch (Exception ex) {
+                } catch (ErroException ex) {
                     JOptionPane.showMessageDialog(this, "Erro ao cadastrar o fornecedor.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } else {
                 try {
                     fornecedorControl.alterarFornecedor(fornecedor);
-                } catch (Exception ex) {
+                } catch (ErroException ex) {
                     JOptionPane.showMessageDialog(this, "Erro ao alterar o fornecedor.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -543,7 +544,7 @@ public class TelaFornecedor extends javax.swing.JInternalFrame {
         if (opcao == 0) {
             try {
                 fornecedorControl.excluirFornecedor(fornecedor);
-            } catch (Exception ex) {
+            } catch (ErroException ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao excluir o fornecedor.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }

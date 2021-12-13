@@ -8,6 +8,7 @@ package com.lucas.sysvendas.view.cadastro;
 import com.lucas.sysvendas.control.ProdutoControl;
 import com.lucas.sysvendas.model.domain.Produto;
 import com.lucas.sysvendas.report.Relatorio;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import com.towel.swing.table.ObjectTableModel;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -39,7 +40,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         
         try {      
             otmProduto.setData(produtoControl.listarTodos());
-        } catch (Exception ex) {
+        } catch (ErroException ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -244,14 +245,14 @@ public class TelaProduto extends javax.swing.JInternalFrame {
             if (produto.getCodigo() == 0l) {
                 try {
                     produtoControl.inserirProduto(produto);
-                } catch (Exception ex) {
+                } catch (ErroException ex) {
                     JOptionPane.showMessageDialog(this, "Erro ao cadastrar o usuário.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } else {
                 try {
                     produtoControl.alterarProduto(produto);
-                } catch (Exception ex) {
+                } catch (ErroException ex) {
                     JOptionPane.showMessageDialog(this, "Erro ao alterar o usuário.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -267,7 +268,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         if (opcao == 0) {
             try {
                 produtoControl.excluirProduto(produto);
-            } catch (Exception ex) {
+            } catch (ErroException ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao excluir o produto.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -370,7 +371,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
             List<Produto> lProduto = produtoControl.listarTodos();
             String pathRelatorio = "src/main/resources/reports/Produtos.jasper";
             relatorio.gerarRelatorio(lProduto, null, pathRelatorio);
-        } catch (Exception ex) {
+        } catch (ErroException ex) {
             JOptionPane.showMessageDialog(this, "Erro ao imprimir o relatório.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         

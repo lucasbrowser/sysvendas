@@ -7,6 +7,7 @@ package com.lucas.sysvendas.view.consultas;
 
 import com.lucas.sysvendas.control.FornecedorControl;
 import com.lucas.sysvendas.model.domain.Fornecedor;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import com.lucas.sysvendas.view.cadastro.TelaCompra;
 import com.towel.swing.table.ObjectTableModel;
 import javax.swing.JInternalFrame;
@@ -41,7 +42,7 @@ public class TelaBuscaFornecedor extends javax.swing.JDialog {
         
         try {      
             otmFiltroFornecedor.setData(fornecedorControl.listarTodos());
-        } catch (Exception ex) {
+        } catch (ErroException ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }

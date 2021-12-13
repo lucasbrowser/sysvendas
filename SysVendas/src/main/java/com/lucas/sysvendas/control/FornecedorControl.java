@@ -10,6 +10,7 @@ package com.lucas.sysvendas.control;
 import com.lucas.sysvendas.model.dao.FornecedorDAO;
 import com.lucas.sysvendas.model.domain.Fornecedor;
 import com.lucas.sysvendas.model.domain.FornecedorEndereco;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import java.util.Date;
 import java.util.List;
 
@@ -24,23 +25,23 @@ public class FornecedorControl {
     private FornecedorEndereco fornecedorEndereco;
     
     
-    public List<Fornecedor> listarTodos() throws Exception {
+    public List<Fornecedor> listarTodos() throws ErroException {
         return fornecedorDAO.listarTodos();
     }
     
-    public List<FornecedorEndereco> recuperarEndereco(Fornecedor fornecedor) throws Exception {
+    public List<FornecedorEndereco> recuperarEndereco(Fornecedor fornecedor) throws ErroException {
         return fornecedorDAO.recuperarEndereco(fornecedor);
     }
     
-    public void inserirFornecedor(Fornecedor fornecedor) throws Exception {
+    public void inserirFornecedor(Fornecedor fornecedor) throws ErroException {
         fornecedorDAO.inserir(fornecedor);
     }
     
-    public void alterarFornecedor(Fornecedor fornecedor) throws Exception {
+    public void alterarFornecedor(Fornecedor fornecedor) throws ErroException {
         fornecedorDAO.alterar(fornecedor);
     }
     
-    public void excluirFornecedor(Fornecedor fornecedor) throws Exception {
+    public void excluirFornecedor(Fornecedor fornecedor) throws ErroException {
         fornecedorDAO.excluir(fornecedor);
     }
     

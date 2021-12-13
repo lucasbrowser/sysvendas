@@ -7,6 +7,7 @@ package com.lucas.sysvendas.view.consultas;
 
 import com.lucas.sysvendas.control.ClienteControl;
 import com.lucas.sysvendas.model.domain.Cliente;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import com.lucas.sysvendas.view.venda.TelaVenda;
 import com.towel.swing.table.ObjectTableModel;
 import javax.swing.JInternalFrame;
@@ -41,7 +42,7 @@ public class TelaBuscaCliente extends javax.swing.JDialog {
         
         try {      
             otmFiltroCliente.setData(clienteControl.listarTodos());
-        } catch (Exception ex) {
+        } catch (ErroException ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }

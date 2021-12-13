@@ -8,6 +8,9 @@ package com.lucas.sysvendas.view.cadastro;
 import com.lucas.sysvendas.control.ClienteControl;
 import com.lucas.sysvendas.model.domain.Cliente;
 import com.lucas.sysvendas.model.domain.ClienteEndereco;
+import com.lucas.sysvendas.util.ValidacaoCpfCnpj;
+import com.lucas.sysvendas.util.ValidacaoEmail;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import com.towel.swing.table.ObjectTableModel;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
@@ -50,7 +53,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
             try {
                 otmClienteEndereco.setData(clienteControl.recuperarEndereco(clienteSelecionado));
-            } catch (Exception ex) {
+            } catch (ErroException ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao carregar o endereço do cliente.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         } 
@@ -61,7 +64,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         
         try {      
             otmCliente.setData(clienteControl.listarTodos());
-        } catch (Exception ex) {
+        } catch (ErroException ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -521,7 +524,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             
             try {
                 otmClienteEndereco.setData(clienteControl.recuperarEndereco(cliente));
-            } catch (Exception ex) {
+            } catch (ErroException ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao carregar o endereço do cliente.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -551,14 +554,14 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             if (cliente.getCodigo() == 0) {
                 try {
                     clienteControl.inserirCliente(cliente);
-                } catch (Exception ex) {
+                } catch (ErroException ex) {
                     JOptionPane.showMessageDialog(this, "Erro ao cadastrar o cliente.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } else {
                 try {
                     clienteControl.alterarCliente(cliente);
-                } catch (Exception ex) {
+                } catch (ErroException ex) {
                     JOptionPane.showMessageDialog(this, "Erro ao alterar o cliente.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -588,7 +591,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         if (opcao == 0) {
             try {
                 clienteControl.excluirCliente(cliente);
-            } catch (Exception ex) {
+            } catch (ErroException ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao excluir o cliente.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -795,12 +798,28 @@ private void habilitarFormulario(boolean b) {
     
     
     private boolean validarFormulario() {
+        
+        ValidacaoCpfCnpj vCnj = new ValidacaoCpfCnpj();
+        ValidacaoEmail vEmail = new ValidacaoEmail();
+        
         if (txtNomeFantasia.getText().trim().length() < 3) {
             JOptionPane.showMessageDialog(this, "Nome inválido.", "Alerta", JOptionPane.WARNING_MESSAGE);
             txtNomeFantasia.requestFocus();
             return false;
         }
-
+        
+        if (vCnj.isValid(ftfCpfCnpj.getText().trim())==false) {
+            JOptionPane.showMessageDialog(this, "CPF ou CNPJ inválido.", "Alerta", JOptionPane.WARNING_MESSAGE);
+            ftfCpfCnpj.requestFocus();
+            return false;
+        }
+        
+        if (vEmail.validaEmail(txtEmail.getText().trim())==false) {
+            JOptionPane.showMessageDialog(this, "Email inválido.", "Alerta", JOptionPane.WARNING_MESSAGE);
+            txtEmail.requestFocus();
+            return false;
+        }
+        
         return true;
     }
 

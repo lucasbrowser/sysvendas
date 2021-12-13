@@ -8,6 +8,7 @@ package com.lucas.sysvendas.model.dao;
 import com.lucas.sysvendas.bd.ConexaoPostgres;
 import com.lucas.sysvendas.model.domain.Fornecedor;
 import com.lucas.sysvendas.model.domain.FornecedorEndereco;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,8 +23,8 @@ import java.util.List;
  */
 public class FornecedorDAO extends ConexaoPostgres {
     
-    public void inserir(Fornecedor fornecedor) throws Exception {
-        try{           
+    public void inserir(Fornecedor fornecedor) throws ErroException {
+        try {           
             this.conectar();
             
             String sql = "INSERT INTO FORNECEDORES ("
@@ -77,15 +78,16 @@ public class FornecedorDAO extends ConexaoPostgres {
                 ps.execute();
             }
             
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
     }
 
-    public void alterar(Fornecedor fornecedor) throws Exception {
-        try{
+    public void alterar(Fornecedor fornecedor) throws ErroException {
+        try {
             this.conectar();
             String sql = "UPDATE FORNECEDORES SET "
                     + "NOME_FANTASIA = ?, "
@@ -136,28 +138,30 @@ public class FornecedorDAO extends ConexaoPostgres {
                 ps.execute();
             }
             
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
     }
 
-    public void excluir(Fornecedor fornecedor) throws Exception {
-        try{
+    public void excluir(Fornecedor fornecedor) throws ErroException {
+        try {
             this.conectar();
             String sql = "DELETE FROM FORNECEDORES WHERE CODIGO = ?";
             PreparedStatement ps = this.getCon().prepareStatement(sql);
             ps.setLong(1, fornecedor.getCodigo());
             ps.execute();
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
     }
 
-    public List<Fornecedor> listarTodos() throws Exception {
+    public List<Fornecedor> listarTodos() throws ErroException {
         List listaFornecedores = new LinkedList();
         try{
             this.conectar();
@@ -177,17 +181,19 @@ public class FornecedorDAO extends ConexaoPostgres {
                 fornecedor.setEmail(rs.getString("EMAIL"));
                 listaFornecedores.add(fornecedor);
             }
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
+        
         return listaFornecedores;
     }
 
-    public Fornecedor recuperar(int codigo) throws Exception {
+    public Fornecedor recuperar(int codigo) throws ErroException {
         Fornecedor fornecedor = new Fornecedor();
-        try{
+        try {
             this.conectar();
             String sql = "SELECT * FROM FORNECEDORES WHERE CODIGO = ?";
             PreparedStatement ps = this.getCon().prepareStatement(sql);
@@ -204,17 +210,19 @@ public class FornecedorDAO extends ConexaoPostgres {
                 fornecedor.setCelular(rs.getString("CELULAR"));
                 fornecedor.setEmail(rs.getString("EMAIL"));
             }
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
+        
         return fornecedor;
     }
     
-    public List<FornecedorEndereco> recuperarEndereco(Fornecedor fornecedor) throws Exception {
+    public List<FornecedorEndereco> recuperarEndereco(Fornecedor fornecedor) throws ErroException {
         List<FornecedorEndereco> lEndereco = new LinkedList<>();
-        try{
+        try {
             this.conectar();
             String sql = "SELECT * FROM FORNECEDORES_ENDERECOS WHERE FORNECEDOR = ?";
             PreparedStatement ps = this.getCon().prepareStatement(sql);
@@ -233,11 +241,13 @@ public class FornecedorDAO extends ConexaoPostgres {
                 endereco.setCep(rs.getString("CEP"));
                 lEndereco.add(endereco);
             }
-        }catch(SQLException e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
+        
         return lEndereco;
     }
     

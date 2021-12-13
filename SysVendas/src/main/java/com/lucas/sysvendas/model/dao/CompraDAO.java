@@ -10,9 +10,11 @@ import com.lucas.sysvendas.control.CompraControl;
 import com.lucas.sysvendas.model.domain.Compra;
 import com.lucas.sysvendas.model.domain.CompraItem;
 import com.lucas.sysvendas.model.enums.SituacaoEnum;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +27,7 @@ public class CompraDAO extends ConexaoPostgres {
     
     ProdutoDAO produtoDAO = new ProdutoDAO();
     
-    public void inserir(Compra compra) throws Exception {
+    public void inserir(Compra compra) throws ErroException {
         try{
             this.conectar();
             
@@ -66,14 +68,15 @@ public class CompraDAO extends ConexaoPostgres {
                     produtoDAO.entradaEstoque(iv.getProduto().getCodigo(), iv.getQuantidade());
                 }
         }
-        }catch(Exception e){
+        }catch(SQLException e){
             e.printStackTrace();
+            throw new ErroException(e.getMessage(), e.getCause());
         }finally{
             this.fecharConexao();
         }
     }
 
-    public void alterar(Compra compra) throws Exception {
+    public void alterar(Compra compra) throws ErroException {
         try{
             this.conectar();
             
@@ -133,15 +136,16 @@ public class CompraDAO extends ConexaoPostgres {
                 }
             }
             
-        }catch(Exception e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
     }
 
 
-    public void excluir(Compra compra) throws Exception {
+    public void excluir(Compra compra) throws ErroException {
         try {
             this.conectar();
             this.executarUpdateDeleteSQL(
@@ -154,16 +158,17 @@ public class CompraDAO extends ConexaoPostgres {
                     + "CODIGO = '" + compra.getCodigo() + "'"
                 + ";"
             );
-        }catch(Exception e){
+        } catch(Exception e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
     }
 
-    public List<Compra> listarTodos() throws Exception {
+    public List<Compra> listarTodos() throws ErroException {
         List listaCompras = new LinkedList();
-        try{
+        try {
             this.conectar();
             FornecedorDAO fornecedorDAO = new FornecedorDAO();
             ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -197,18 +202,20 @@ public class CompraDAO extends ConexaoPostgres {
                 }
 
                 listaCompras.add(compra);
-        }
-        }catch(Exception e){
+            }
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
+        
         return listaCompras;
     }
 
-    public Compra recuperar() throws Exception {
+    public Compra recuperar() throws ErroException {
         Compra compra = new Compra();
-        try{
+        try {
             this.conectar();
             FornecedorDAO fornecedorDAO = new FornecedorDAO();
             CompraControl compraControl = new CompraControl();
@@ -240,11 +247,13 @@ public class CompraDAO extends ConexaoPostgres {
                 }
 
             }
-        }catch(Exception e){
+        } catch(SQLException e) {
             e.printStackTrace();
-        }finally{
+            throw new ErroException(e.getMessage(), e.getCause());
+        } finally {
             this.fecharConexao();
         }
+        
         return compra;
     }
     

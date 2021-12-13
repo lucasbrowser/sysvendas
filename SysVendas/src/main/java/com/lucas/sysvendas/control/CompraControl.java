@@ -10,6 +10,7 @@ package com.lucas.sysvendas.control;
 import com.lucas.sysvendas.model.dao.CompraDAO;
 import com.lucas.sysvendas.model.domain.Compra;
 import com.lucas.sysvendas.model.enums.SituacaoEnum;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import java.util.List;
 
 /**
@@ -23,23 +24,23 @@ public class CompraControl {
 
     
     
-    public List<Compra> listarTodos() throws Exception {
+    public List<Compra> listarTodos() throws ErroException {
         return compraDAO.listarTodos();
     }
     
-    public void inserirCompra(Compra compra) throws Exception {
+    public void inserirCompra(Compra compra) throws ErroException {
         compraDAO.inserir(compra);
     }
     
-    public void alterarCompra(Compra compra) throws Exception {
+    public void alterarCompra(Compra compra) throws ErroException {
         compraDAO.alterar(compra);
     }
     
-    public void excluirCompra(Compra compra) throws Exception {
+    public void excluirCompra(Compra compra) throws ErroException {
         compraDAO.excluir(compra);
     }
     
-    public Compra recuperar() throws Exception {
+    public Compra recuperar() throws ErroException {
         return compraDAO.recuperar();
     }
     

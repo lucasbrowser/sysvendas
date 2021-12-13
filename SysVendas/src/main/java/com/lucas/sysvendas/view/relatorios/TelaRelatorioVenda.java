@@ -5,6 +5,7 @@ import com.lucas.sysvendas.control.VendaControl;
 import com.lucas.sysvendas.model.domain.Venda;
 import com.lucas.sysvendas.model.domain.VendaItem;
 import com.lucas.sysvendas.report.Relatorio;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import com.towel.swing.table.ObjectTableModel;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +24,6 @@ public class TelaRelatorioVenda extends javax.swing.JInternalFrame {
     private final VendaControl vendaControl = new VendaControl();
     
     private Venda venda;
-    
-    private VendaItem vendaItem;
     
     private Relatorio relatorio;
     
@@ -231,7 +230,7 @@ public class TelaRelatorioVenda extends javax.swing.JInternalFrame {
     private void carregarGrade() {
         try {      
             otmVenda.setData(vendaControl.listarTodos());
-        } catch (Exception ex) {
+        } catch (ErroException ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -244,7 +243,7 @@ public class TelaRelatorioVenda extends javax.swing.JInternalFrame {
             List<Venda> lVendas = vendaControl.listarVendaSelecionada(venda.getCodigo());
             String pathRelatorio = "src/main/resources/reports/Vendas.jasper";
             relatorio.gerarRelatorio(lVendas, null, pathRelatorio);
-        } catch (Exception ex) {
+        } catch (ErroException ex) {
             JOptionPane.showMessageDialog(this, "Erro ao imprimir o relatório.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         

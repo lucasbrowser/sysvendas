@@ -11,6 +11,7 @@ import com.lucas.sysvendas.model.domain.Venda;
 import com.lucas.sysvendas.model.domain.VendaItem;
 import com.lucas.sysvendas.model.domain.Produto;
 import com.lucas.sysvendas.model.enums.SituacaoEnum;
+import com.lucas.sysvendas.util.exceptions.ErroException;
 import com.lucas.sysvendas.view.consultas.TelaBuscaCliente;
 import com.lucas.sysvendas.view.consultas.TelaBuscaProduto;
 import com.towel.swing.table.ObjectTableModel;
@@ -61,7 +62,7 @@ public class TelaVenda extends javax.swing.JInternalFrame {
         
         try {      
             otmVenda.setData(vendaControl.listarTodos());
-        } catch (Exception ex) {
+        } catch (ErroException ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -547,7 +548,7 @@ private void habilitarFormulario(boolean b) {
     
     private void setarVendaItens() {
         
-        VendaItem vendaItem = new VendaItem();
+        vendaItem = new VendaItem();
         vendaItem.setProduto((Produto) ftfProduto.getValue());
         vendaItem.setVenda(venda);
         vendaItem.setQuantidade(Long.parseLong(String.valueOf(spQuantidade.getValue())));
@@ -571,14 +572,14 @@ private void habilitarFormulario(boolean b) {
             if (venda.getCodigo() == 0) {
                 try {
                     vendaControl.inserirVenda(venda);
-                } catch (Exception ex) {
+                } catch (ErroException ex) {
                     JOptionPane.showMessageDialog(this, "Erro ao inserir a venda.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } else {
                 try {
                     vendaControl.alterarVenda(venda);
-                } catch (Exception ex) {
+                } catch (ErroException ex) {
                     JOptionPane.showMessageDialog(this, "Erro ao alterar a venda.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -590,16 +591,18 @@ private void habilitarFormulario(boolean b) {
     }
     
     private boolean validarFormulario() {
+        
         if (ftfCliente.getValue() == null) {
             JOptionPane.showMessageDialog(this, "Fornecedor inválido.", "Alerta", JOptionPane.WARNING_MESSAGE);
             ftfCliente.requestFocus();
             return false;
         }
-        if (venda.getItens().size() == 0) {
+        if (venda.getItens().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Quantidade de itens inválida.", "Alerta", JOptionPane.WARNING_MESSAGE);
             tpConteudoVenda.setSelectedIndex(1);
             return false;
         }
+        
         return true;
     }
 
